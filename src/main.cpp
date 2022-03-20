@@ -18,6 +18,7 @@
 #include "init.hpp"
 #include "uart.hpp"
 #include "driver.hpp"
+#include "bluetooth.hpp"         //  pro grafické rozhraní
 #include "gridui.h"         //  pro grafické rozhraní
 #include "rbprotocol.h"     //  pro grafické rozhraní
 #include "rbwebserver.h"    //  pro grafické rozhraní
@@ -118,7 +119,12 @@ extern "C" void app_main(void)
   //  gpio_set_level(VCC_IO_2, 1);
   //  gpio_set_level(VCC_IO_3, 1);
     nvs_init();                             //inicializace pro zápis do flash paměti
+
+
   //  initGridUi();
+
+    bt();
+    
     Uart drivers_uart {
         DRIVERS_UART,
         Uart::config_t {
