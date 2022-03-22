@@ -1,0 +1,50 @@
+{
+	"cmake" : 
+	{
+		"generator" : 
+		{
+			"name" : "Ninja"
+		},
+		"paths" : 
+		{
+			"cmake" : "C:/Users/SimecPC/.platformio/packages/tool-cmake/bin/cmake.exe",
+			"cpack" : "C:/Users/SimecPC/.platformio/packages/tool-cmake/bin/cpack.exe",
+			"ctest" : "C:/Users/SimecPC/.platformio/packages/tool-cmake/bin/ctest.exe",
+			"root" : "C:/Users/SimecPC/.platformio/packages/tool-cmake/share/cmake-3.16"
+		},
+		"version" : 
+		{
+			"isDirty" : false,
+			"major" : 3,
+			"minor" : 16,
+			"patch" : 4,
+			"string" : "3.16.4",
+			"suffix" : ""
+		}
+	},
+	"objects" : 
+	[
+		{
+			"jsonFile" : "codemodel-v2-1eb4e91441f31107ea68.json",
+			"kind" : "codemodel",
+			"version" : 
+			{
+				"major" : 2,
+				"minor" : 0
+			}
+		}
+	],
+	"reply" : 
+	{
+		"codemodel-v2" : 
+		{
+			"jsonFile" : "codemodel-v2-1eb4e91441f31107ea68.json",
+			"kind" : "codemodel",
+			"version" : 
+			{
+				"major" : 2,
+				"minor" : 0
+			}
+		}
+	}
+}
