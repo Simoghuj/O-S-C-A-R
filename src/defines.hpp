@@ -1,13 +1,13 @@
 #pragma once
 
 #define DRIVER_0_ADDRES           0
-#define DRIVER_0_ENABLE           GPIO_NUM_23   // H= disable motor output
+#define DRIVER_0_ENABLE           GPIO_NUM_23   // H= disable motor output  --- bylo 23?
 #define DRIVER_1_ADDRES           1
-#define DRIVER_1_ENABLE           GPIO_NUM_18   // H= disable motor output
+#define DRIVER_1_ENABLE           GPIO_NUM_23   // H= disable motor output --- 18
 #define DRIVER_2_ADDRES           2
-#define DRIVER_2_ENABLE           GPIO_NUM_23   // H= disable motor output
+#define DRIVER_2_ENABLE           GPIO_NUM_23   // H= disable motor output --- 15
 #define DRIVER_3_ADDRES           3
-#define DRIVER_3_ENABLE           GPIO_NUM_23   // H= disable motor output
+#define DRIVER_3_ENABLE           GPIO_NUM_23   // H= disable motor output --- 13
 
 #define VCC_IO_0                  GPIO_NUM_33  // L = reset driver 0, H = driver0 on
 #define VCC_IO_1                  GPIO_NUM_25  // L = reset driver 0, H = driver0 on

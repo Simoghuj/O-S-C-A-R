@@ -37,6 +37,10 @@ static long data_num = 0;
 static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 
+uint8_t recived[128];
+int motorspeed;
+char result[128];
+
 static char *bda2str(uint8_t * bda, char *str, size_t size)
 {
     if (bda == NULL || str == NULL || size < 18) {
@@ -97,6 +101,11 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
     case ESP_SPP_CL_INIT_EVT:
         //ESP_LOGI(SPP_TAG, "ESP_SPP_CL_INIT_EVT");
         break;
+
+
+/*DATA Z BT*/
+
+
     case ESP_SPP_DATA_IND_EVT:
 #if (SPP_SHOW_MODE == SPP_SHOW_DATA)
         /*
@@ -105,10 +114,61 @@ static void esp_spp_cb(esp_spp_cb_event_t event, esp_spp_cb_param_t *param)
          * rather than in this callback directly. Since the printing takes too much time, it may stuck the Bluetooth
          * stack and also have a effect on the throughput!
          */
-        ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len:%d handle:%d",
-                 param->data_ind.len, param->data_ind.handle);
+            //ESP_LOGI(SPP_TAG, "ESP_SPP_DATA_IND_EVT len:%d handle:%d", param->data_ind.len, param->data_ind.handle);
         if (param->data_ind.len < 128) {
             esp_log_buffer_hex("", param->data_ind.data, param->data_ind.len);
+
+            //ESP_LOGI(SPP_TAG,"data len: %d", param->data_ind.len);
+            //ESP_LOGI(SPP_TAG,"data: %s", param->data_ind.data);
+            /*
+            for (int i = 0; i < (param->data_ind.len - 2); i++){
+                recived[i] = param->data_ind.data[i];
+            }*/
+
+            //status = param->data_ind.data[0];
+
+            /*char *number[10 + sizeof(char)];
+            for (int i; i < status;i++){
+                sprintf(number[i], "%d", status);
+            };
+
+            
+            int h = 0;
+
+            for (int i = 0; i < param->data_ind.len; i++){
+                char *pole["0"; "1"; "2" "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"];
+                for (int j = 0; j < 2 * param->data_ind.len; i++){
+                    if(!strcmp(number[j],"0")){
+                        h = 0;
+                        while (!strcmp(number[j], pole[h])){
+                            h++;
+                        };
+                    };
+                };
+                result = h;
+            };*/
+
+            for (int i = 0; i < param->data_ind.len; i++){
+                // strncat(result, char(param->data_ind.data[i]));
+                result[i] = char(param->data_ind.data[i]);
+            }
+
+            ESP_LOGI(SPP_TAG,"data: %s", result);
+        
+
+            /*
+            switch(param->data_ind.data[0])     
+                {
+                    case 01:
+                        status = 1;
+                        break;
+                    case 02:
+                        status = 2;
+                        break;
+                    case 03:
+                        status = 3;
+                        break;
+                }*/
         }
 #else
         gettimeofday(&time_new, NULL);
@@ -198,8 +258,7 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
     return;
 }
 
-void bt(void)
-{
+void bt(void){
     char bda_str[18] = {0};
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -262,4 +321,5 @@ void bt(void)
     esp_bt_gap_set_pin(pin_type, 0, pin_code);
 
     ESP_LOGI(SPP_TAG, "Own address:[%s]", bda2str((uint8_t *)esp_bt_dev_get_address(), bda_str, sizeof(bda_str)));
+    return;
 }

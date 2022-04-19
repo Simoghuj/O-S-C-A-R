@@ -1,4 +1,4 @@
-/* * Data converted from d:\Projekty\OSCAR_RP\O-S-C-A-R\.pio\build\esp32dev\x509_crt_bundle
+/* * Data converted from C:\Users\lenovo\Desktop\O-S-C-A-R\.pio\build\esp32dev\x509_crt_bundle
  */
 .data
 .section .rodata.embedded

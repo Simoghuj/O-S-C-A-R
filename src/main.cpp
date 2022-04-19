@@ -100,30 +100,28 @@ static void initDriver(Driver& driver, const int iRun, const int iHold) {
 extern "C" void app_main(void)
 {
     gpio_set_level(VCC_IO_0, 1); // zapnuti napajeni do driveru0
- //   gpio_set_level(VCC_IO_1, 1); // zapnuti napajeni do driveru1
- //   gpio_set_level(VCC_IO_2, 1); // zapnuti napajeni do driveru2
- //   gpio_set_level(VCC_IO_3, 1); // zapnuti napajeni do driveru3
+    gpio_set_level(VCC_IO_1, 1); // zapnuti napajeni do driveru1
+    gpio_set_level(VCC_IO_2, 1); // zapnuti napajeni do driveru2
+    gpio_set_level(VCC_IO_3, 1); // zapnuti napajeni do driveru3
 
     gpio_set_level(GPIO_NUM_32, 1); // zapnuti siloveho napajeni do driveru
     printf("Simple Motor \n\tbuild %s %s\n", __DATE__, __TIME__);
     check_reset();
     iopins_init();
     gpio_set_level(VCC_IO_0, 0);              // reset driveru
-  //  gpio_set_level(VCC_IO_1, 0);
-  //  gpio_set_level(VCC_IO_2, 0);
-  //  gpio_set_level(VCC_IO_3, 0);
+    gpio_set_level(VCC_IO_1, 0);
+    gpio_set_level(VCC_IO_2, 0);
+    gpio_set_level(VCC_IO_3, 0);
 
     vTaskDelay(1000 / portTICK_PERIOD_MS);
     gpio_set_level(VCC_IO_0, 1);              //zapíná VCCIO driveru
-  //  gpio_set_level(VCC_IO_1, 1);
-  //  gpio_set_level(VCC_IO_2, 1);
-  //  gpio_set_level(VCC_IO_3, 1);
+    gpio_set_level(VCC_IO_1, 1);
+    gpio_set_level(VCC_IO_2, 1);
+    gpio_set_level(VCC_IO_3, 1);
     nvs_init();                             //inicializace pro zápis do flash paměti
 
 
   //  initGridUi();
-
-    bt();
     
     Uart drivers_uart {
         DRIVERS_UART,
@@ -150,13 +148,97 @@ extern "C" void app_main(void)
     };
     Driver driver0 { drivers_uart, DRIVER_0_ADDRES, DRIVER_0_ENABLE };
     initDriver(driver0, 8, 0);
+    vTaskDelay(500/portTICK_PERIOD_MS);
     Driver driver1 { drivers_uart, DRIVER_1_ADDRES, DRIVER_1_ENABLE };
     initDriver(driver1, 8, 0);
-    driver0.set_speed(MOTOR_SPEED_COEFICIENT);
-    driver1.set_speed(-10000);
-    vTaskDelay(2000/portTICK_PERIOD_MS);
-    driver0.set_speed(0);
-    driver1.set_speed(0);
+    vTaskDelay(500/portTICK_PERIOD_MS);
+    Driver driver2 { drivers_uart, DRIVER_2_ADDRES, DRIVER_2_ENABLE };
+    initDriver(driver2, 8, 0);
+    vTaskDelay(500/portTICK_PERIOD_MS);
+    Driver driver3 { drivers_uart, DRIVER_3_ADDRES, DRIVER_3_ENABLE };
+    initDriver(driver3, 8, 0);
+
+    vTaskDelay(3000/portTICK_PERIOD_MS);
+
+    bt();
+
+    while(true){
+        //printf("%d", result);
+        switch (result[0])
+        {
+        case 'a':
+            driver0.set_speed(MOTOR_SPEED_COEFICIENT * motorspeed);
+            result[0] = ' ';
+            break;
+
+        case 'b':
+            driver0.set_speed(0);
+            result[0] = ' ';
+            break;
+
+        case 'c':
+            driver0.set_speed(-MOTOR_SPEED_COEFICIENT * motorspeed);
+            result[0] = ' ';
+            break;
+
+        case 'd':
+            driver1.set_speed(MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'e':
+            driver1.set_speed(0);
+            result[0] = ' ';
+            break;
+            
+        case 'f':
+            driver1.set_speed(-MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'g' :
+            driver2.set_speed(MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'h':
+            driver2.set_speed(0);
+            result[0] = ' ';
+            break;
+            
+        case 'i':
+            driver2.set_speed(-MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'j':
+            driver3.set_speed(MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'k':
+            driver3.set_speed(-MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+
+        case 'l':
+            driver3.set_speed(MOTOR_SPEED_COEFICIENT);
+            result[0] = ' ';
+            break;
+        default:
+            if(atoi(result) < 50 && atoi(result) != 0){
+                //ESP_LOGI(SPP_TAG,"motorspeed: %d", motorspeed);
+                motorspeed = atoi(result);
+            }
+            for(int i = 0; i < sizeof(result); i++){
+                result[i] = ' ';
+            }
+            break;
+        }
+        vTaskDelay(10/portTICK_PERIOD_MS);
+    }
+    
+
     /*for(int i = 0; i<=10; i++) {
         printf("main_speed: %d\n", motor_speed);
 
