@@ -1,4 +1,4 @@
-# Install script for directory: D:/Projekty/OSCAR_RP/O-S-C-A-R/.pio/build/esp32dev/__pio_env
+# Install script for directory: C:/Users/lenovo/Desktop/O-S-C-A-R/.pio/build/esp32dev/__pio_env
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

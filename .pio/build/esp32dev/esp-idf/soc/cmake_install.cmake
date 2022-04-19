@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/soc
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/soc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Projekty/OSCAR_RP/O-S-C-A-R/.pio/build/esp32dev/esp-idf/soc/esp32/cmake_install.cmake")
+  include("C:/Users/lenovo/Desktop/O-S-C-A-R/.pio/build/esp32dev/esp-idf/soc/esp32/cmake_install.cmake")
 
 endif()
 

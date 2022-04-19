@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/hal
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/hal
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

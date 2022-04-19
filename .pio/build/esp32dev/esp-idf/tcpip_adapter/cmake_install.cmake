@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/tcpip_adapter
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/tcpip_adapter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/coap
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/coap
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

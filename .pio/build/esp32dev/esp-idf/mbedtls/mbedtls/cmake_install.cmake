@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/mbedtls/mbedtls
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/mbedtls/mbedtls
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,8 +34,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/Projekty/OSCAR_RP/O-S-C-A-R/.pio/build/esp32dev/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
-  include("D:/Projekty/OSCAR_RP/O-S-C-A-R/.pio/build/esp32dev/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
+  include("C:/Users/lenovo/Desktop/O-S-C-A-R/.pio/build/esp32dev/esp-idf/mbedtls/mbedtls/library/cmake_install.cmake")
+  include("C:/Users/lenovo/Desktop/O-S-C-A-R/.pio/build/esp32dev/esp-idf/mbedtls/mbedtls/include/cmake_install.cmake")
 
 endif()
 

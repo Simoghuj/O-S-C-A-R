@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/espcoredump
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/espcoredump
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/wifi_provisioning
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/wifi_provisioning
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

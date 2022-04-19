@@ -1,4 +1,4 @@
-# Install script for directory: D:/Projekty/OSCAR_RP/O-S-C-A-R/src
+# Install script for directory: C:/Users/lenovo/Desktop/O-S-C-A-R/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

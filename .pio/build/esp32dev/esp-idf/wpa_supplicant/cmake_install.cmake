@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/SimecPC/.platformio/packages/framework-espidf/components/wpa_supplicant
+# Install script for directory: C:/Users/lenovo/.platformio/packages/framework-espidf/components/wpa_supplicant
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
