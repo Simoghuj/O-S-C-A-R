@@ -49,7 +49,7 @@ public:
     }
 
     int read_speed(uint32_t& read) {
-        return _read(0x22, read);
+        return _read(0x12, read);
     }
     
 
@@ -144,6 +144,10 @@ private:
         register_data = data_read[rx_data_begin];
         for(size_t i = rx_data_begin+1; i != rx_data_end; ++i)
             register_data = (register_data << 8) | data_read[i];
+        /*                                                                         //vypisovani bytu priajtych z driveru
+        for (int i = 0; i < (rx_packet_size + tx_packet_size); i++){
+            printf("byte%d - 0x%02X ", i, int(data_read[i]));
+        }*/
         return 0;
     }
 

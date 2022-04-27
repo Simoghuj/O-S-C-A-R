@@ -14,6 +14,11 @@
 #define VCC_IO_2                  GPIO_NUM_26  // L = reset driver 0, H = driver0 on
 #define VCC_IO_3                  GPIO_NUM_27  // L = reset driver 0, H = driver0 on
 
+#define OPT_IN_0                  GPIO_NUM_35
+#define OPT_IN_1                  GPIO_NUM_34
+#define OPT_IN_2                  GPIO_NUM_39  
+#define OPT_IN_3                  GPIO_NUM_36
+
 #define SW_CTRL                   GPIO_NUM_32  // L = transistor Q3 off -> motor power off, H = all drivers on
 
 #define DRIVERS_UART              UART_NUM_1
@@ -23,7 +28,8 @@
 #define DRIVERS_RX_TIMEOUT        (20 / portTICK_RATE_MS)
 #define DRIVERS_UART_START_BYTE   0x05
 
-#define GPIO_OUTPUT_PIN_SEL ((1ULL<<DRIVER_0_ENABLE) | (1ULL<<SW_CTRL) | (1ULL<<VCC_IO_0) )
+#define GPIO_OUTPUT_PIN_SEL ((1ULL<<DRIVER_0_ENABLE) | (1ULL<<SW_CTRL) | (1ULL<<VCC_IO_0) )  //nastaveni vystupnich pinu
+#define GPIO_INPUT_PIN_SEL ((1ULL << OPT_IN_0) | (1ULL << OPT_IN_1) | (1ULL << OPT_IN_2) | (1ULL << OPT_IN_3) )//nastaveni vstupnich pinu
 
 #define MOTOR_SPEED_COEFICIENT    71608     // 71608 = 1RPS
 
