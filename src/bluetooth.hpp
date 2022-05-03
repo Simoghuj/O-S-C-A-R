@@ -38,7 +38,7 @@ static const esp_spp_sec_t sec_mask = ESP_SPP_SEC_AUTHENTICATE;
 static const esp_spp_role_t role_slave = ESP_SPP_ROLE_SLAVE;
 
 uint8_t recived[128];
-double motorspeed;
+double motorspeed = MOTOR_SPEED_COEFICIENT;
 char result[128];
 
 static char *bda2str(uint8_t * bda, char *str, size_t size)

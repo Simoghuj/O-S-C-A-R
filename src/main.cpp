@@ -97,10 +97,10 @@ static void initGridUi() {
     };
 
     gpio_num_t opt[4] = {
-            OPT_IN_0,
-            OPT_IN_1,
+            OPT_IN_3,
             OPT_IN_2,
-            OPT_IN_3
+            OPT_IN_1,
+            OPT_IN_0
     };
 
     Driver driver[4] = {
@@ -130,15 +130,22 @@ static void initGridUi() {
             printf("PWMCONF driveru %d : ERROR  %d\n", driver.address(), result);
         }
         else{
-        printf("PWMCONF driveru %d =  %08X\n", driver.address(), data);
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+            printf("PWMCONF driveru %d =  %08X\n", driver.address(), data);
+            vTaskDelay(100 / portTICK_PERIOD_MS);
 
-    result = driver.get_DRV_STATUS(data);}
-    if (result != 0)
-        printf("DRV_STATUS driveru %d : ERROR  %d\n", driver.address(), result);
-    else
-        printf("DRV_STATUS driveru  %d =  %08X\n", driver.address(), data);
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+            result = driver.get_DRV_STATUS(data);}
+        if (result != 0)
+            printf("DRV_STATUS driveru %d : ERROR  %d\n", driver.address(), result);
+        else{
+            printf("DRV_STATUS driveru  %d =  %08X\n", driver.address(), data);
+            vTaskDelay(100 / portTICK_PERIOD_MS);
+
+            result = driver.read_pinState(data);}
+        if (result != 0)
+            printf("PIN_STATUS driveru %d : ERROR  %d\n", driver.address(), result);
+        else
+            printf("PIN_STATUS driveru  %d =  %08X\n", driver.address(), data);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
 
     driver.set_speed(0);                      // otáčení motoru se nastavuje zápisem rychlosti do driveru přes Uart
     driver.set_IHOLD_IRUN (8, 16);             // proud IHOLD (při stání) =8/32, IRUN (při běhu)= 8/32 (8/32 je minimum, 16/32 je maximum pro dluhodobější provoz)
@@ -149,12 +156,13 @@ static void initGridUi() {
 
 
 
+
  void optcontrol(void){
     for (int i = 0; i < 4; i++){
 
         static int stat[4] = {0, 0, 0, 0};
 
-        if (gpio_get_level(opt[i]) && (stat[i] != 1))
+        if ((gpio_get_level(opt[i]) == 1) && (stat[i] != 1))
         {
             if(drvstat[i] == 1){
                 driver[i].set_speed(MOTOR_SPEED_COEFICIENT * -0.25);
@@ -167,6 +175,7 @@ static void initGridUi() {
             }
 
         if((gpio_get_level(opt[i]) != 1) && (stat[i] == 1)){
+                vTaskDelay(1500 / portTICK_PERIOD_MS);
                 driver[i].set_speed(0);
                 drvstat[i] = 0;
                 //printf("stopped due to> %d", i);
@@ -233,7 +242,7 @@ extern "C" void app_main(void)
         switch (result[0])
             {
             case 'a':
-                driver[0].set_speed(MOTOR_SPEED_COEFICIENT);
+                driver[0].set_speed(motorspeed);
                 drvstat[0] = 1;
                 result[0] = ' ';
             break;
@@ -245,13 +254,13 @@ extern "C" void app_main(void)
                 break;
 
             case 'c':
-                driver[0].set_speed(-MOTOR_SPEED_COEFICIENT);
+                driver[0].set_speed(-motorspeed);
                 drvstat[0] = 2;
                 result[0] = ' ';
                 break;
 
             case 'd':
-                driver[1].set_speed(MOTOR_SPEED_COEFICIENT);
+                driver[1].set_speed(motorspeed);
                 drvstat[1] = 1;
                 result[0] = ' ';
                 break;
@@ -263,13 +272,13 @@ extern "C" void app_main(void)
                 break;
                 
             case 'f':
-                driver[1].set_speed(-MOTOR_SPEED_COEFICIENT);
+                driver[1].set_speed(-motorspeed);
                 drvstat[1] = 2;
                 result[0] = ' ';
                 break;
 
             case 'g' :
-                driver[2].set_speed(MOTOR_SPEED_COEFICIENT);
+                driver[2].set_speed(motorspeed);
                 drvstat[2] = 1;
                 result[0] = ' ';
                 break;
@@ -281,13 +290,13 @@ extern "C" void app_main(void)
                 break;
                 
             case 'i':
-                driver[2].set_speed(-MOTOR_SPEED_COEFICIENT);
+                driver[2].set_speed(-motorspeed);
                 drvstat[2] = 2;
                 result[0] = ' ';
                 break;
 
             case 'j':
-                driver[3].set_speed(MOTOR_SPEED_COEFICIENT);
+                driver[3].set_speed(motorspeed);
                 drvstat[3] = 1;
                 result[0] = ' ';
                 break;
@@ -299,7 +308,7 @@ extern "C" void app_main(void)
                 break;
 
             case 'l':
-                driver[3].set_speed(-MOTOR_SPEED_COEFICIENT);
+                driver[3].set_speed(-motorspeed);
                 drvstat[3] = 2;
                 result[0] = ' ';
                 break;
@@ -310,23 +319,18 @@ extern "C" void app_main(void)
                     result[0] = ' ';
                 }
                 break;
-                                                                    //disable stepper (nefunguje)
-            case 'p':
-                int b;
-                // int recived = driver[i].get_MSCNT(a);
-                // ESP_LOGI(SPP_TAG,"driver%d// a: 0x%X recived: %d",i ,  a, int(a));
-                driver[3].set_speed(MOTOR_SPEED_COEFICIENT);
-                do
-                {
-                    uint32_t a = 0;
-                    driver[3].get_MSCNT(a);       //cteni aktualni poyice (da se pouze od 0 do 1023
-                    b = a;
-                    printf("position: %d \n", b);
-                    } while (b != 0);
-                    driver[3].set_speed(0);
-                    result[0] = ' ';
-                    break;                          
+            
+            case 'p':                                   //disable stepper
+                for(int i = 0; i<4; i++){
+                    driver[i].set_speed(0);                      
+                    driver[i].set_IHOLD_IRUN (0, 0);
+                }
+                result[0] = ' ';
+                break;
             case 'q':
+                for(int i = 0; i<4; i++){                    
+                    driver[i].set_IHOLD_IRUN (8, 16);
+                }
                 result[0] = ' ';
                 break;
 
@@ -340,7 +344,7 @@ extern "C" void app_main(void)
                     //int recived = driver[i].read_speed(a);
                     //ESP_LOGI(SPP_TAG," %d:: a: %X recived: %d",i ,  a, recived);
                         if(drvstat[i] == 1){
-                            ESP_LOGI(SPP_TAG,"motorspeed: %f", motorspeed);
+                            //ESP_LOGI(SPP_TAG,"motorspeed: %f", motorspeed);
                             driver[i].set_speed(motorspeed);
                         }
 
@@ -360,13 +364,5 @@ extern "C" void app_main(void)
 
         vTaskDelay(10/portTICK_PERIOD_MS);
     }
-    
-
-    /*for(int i = 0; i<=10; i++) {
-        printf("main_speed: %d\n", motor_speed);
-
-        driver0.set_speed(motor_speed);
-        vTaskDelay(200/portTICK_PERIOD_MS);
-    }*/
 }
 

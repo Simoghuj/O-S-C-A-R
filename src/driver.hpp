@@ -30,10 +30,12 @@ public:
         int result = _read(0, data);
         printf("registr 0x00 pred zapisem  %d %X\n", result, data);
         vTaskDelay(100 / portTICK_PERIOD_MS);
-        _write(0, 0x000000E0);
+        _write(0, 0x000000E0);  
         vTaskDelay(100 / portTICK_PERIOD_MS);
         result = _read(0, data);
         printf("registr 0x00 po zapisu %d %X\n", result, data);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        set_PWMCONF(0xC81D0E24); //default: 0xC80D0E24
         vTaskDelay(100 / portTICK_PERIOD_MS);
         return result == 0;
     }
@@ -65,6 +67,10 @@ public:
         return _read(0x70, read);
     }
 
+    int set_PWMCONF(int data) {
+        return _write(0x70, data);
+    }
+
     int get_DRV_STATUS(uint32_t& read) {
         return _read(0x6F, read);
     }
@@ -77,10 +83,15 @@ public:
         return _read(0x6A, read);
     }
 
+    int read_pinState(uint32_t& read){   // vraci hodnoty na pinu ENN 0 MS1 MS2
+        return _read(0x06, read);
+    }
+
+
     driver_address_t address() const { return c_address; }
      
 private:
-    bool _write(const register_address_t register_address, const data_t register_data)
+    bool _write(const register_address_t register_address, const data_t register_data) //hexadecimalni 4islo na y8pis po p5evodu do binaru cteme z prava!!
     {
         static constexpr size_t packet_size = 8;
         uint8_t data[packet_size] = { DRIVERS_UART_START_BYTE, c_address, static_cast<uint8_t>(register_address + 0x80) };
@@ -144,7 +155,7 @@ private:
         register_data = data_read[rx_data_begin];
         for(size_t i = rx_data_begin+1; i != rx_data_end; ++i)
             register_data = (register_data << 8) | data_read[i];
-        /*                                                                         //vypisovani bytu priajtych z driveru
+        /*                                                                        //vypisovani bytu priajtych z driveru
         for (int i = 0; i < (rx_packet_size + tx_packet_size); i++){
             printf("byte%d - 0x%02X ", i, int(data_read[i]));
         }*/
