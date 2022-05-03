@@ -316,8 +316,9 @@ extern "C" void app_main(void)
             case 'o':
                 for (int i = 0; i < 4;i++){
                     driver[i].set_speed(0);
-                    result[0] = ' ';
+                    drvstat[i] = 0;
                 }
+                result[0] = ' ';
                 break;
             
             case 'p':                                   //disable stepper
