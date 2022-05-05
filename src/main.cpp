@@ -165,10 +165,10 @@ static void initGridUi() {
         if ((gpio_get_level(opt[i]) == 1) && (stat[i] != 1))
         {
             if(drvstat[i] == 1){
-                driver[i].set_speed(MOTOR_SPEED_COEFICIENT * -0.25);
+                driver[i].set_speed(MOTOR_SPEED_COEFICIENT * 0.25);
             }
             else if(drvstat[i] == 2){
-                driver[i].set_speed(MOTOR_SPEED_COEFICIENT * 0.25);
+                driver[i].set_speed(MOTOR_SPEED_COEFICIENT * -0.25);
             } 
             //printf("slow> %d", i);
             stat[i] = 1;
@@ -241,26 +241,26 @@ extern "C" void app_main(void)
         
         switch (result[0])
             {
-            case 'a':
-                driver[0].set_speed(motorspeed);
+            case 'j':
+                driver[0].set_speed(-motorspeed);
                 drvstat[0] = 1;
                 result[0] = ' ';
             break;
 
-            case 'b':
+            case 'k':
                 driver[0].set_speed(0);
                 drvstat[0] = 0;
                 result[0] = ' ';
                 break;
 
-            case 'c':
-                driver[0].set_speed(-motorspeed);
+            case 'l':
+                driver[0].set_speed(motorspeed);
                 drvstat[0] = 2;
                 result[0] = ' ';
                 break;
 
             case 'd':
-                driver[1].set_speed(motorspeed);
+                driver[1].set_speed(-motorspeed);
                 drvstat[1] = 1;
                 result[0] = ' ';
                 break;
@@ -272,13 +272,13 @@ extern "C" void app_main(void)
                 break;
                 
             case 'f':
-                driver[1].set_speed(-motorspeed);
+                driver[1].set_speed(motorspeed);
                 drvstat[1] = 2;
                 result[0] = ' ';
                 break;
 
             case 'g' :
-                driver[2].set_speed(motorspeed);
+                driver[2].set_speed(-motorspeed);
                 drvstat[2] = 1;
                 result[0] = ' ';
                 break;
@@ -290,25 +290,25 @@ extern "C" void app_main(void)
                 break;
                 
             case 'i':
-                driver[2].set_speed(-motorspeed);
+                driver[2].set_speed(motorspeed);
                 drvstat[2] = 2;
                 result[0] = ' ';
                 break;
 
-            case 'j':
-                driver[3].set_speed(motorspeed);
+            case 'a':
+                driver[3].set_speed(-motorspeed);
                 drvstat[3] = 1;
                 result[0] = ' ';
                 break;
 
-            case 'k':
+            case 'b':
                 driver[3].set_speed(0);
                 drvstat[3] = 0;
                 result[0] = ' ';
                 break;
 
-            case 'l':
-                driver[3].set_speed(-motorspeed);
+            case 'c':
+                driver[3].set_speed(motorspeed);
                 drvstat[3] = 2;
                 result[0] = ' ';
                 break;
@@ -330,7 +330,7 @@ extern "C" void app_main(void)
                 break;
             case 'q':
                 for(int i = 0; i<4; i++){                    
-                    driver[i].set_IHOLD_IRUN (8, 16);
+                    driver[i].set_IHOLD_IRUN (16, 25);
                 }
                 result[0] = ' ';
                 break;
@@ -346,11 +346,11 @@ extern "C" void app_main(void)
                     //ESP_LOGI(SPP_TAG," %d:: a: %X recived: %d",i ,  a, recived);
                         if(drvstat[i] == 1){
                             //ESP_LOGI(SPP_TAG,"motorspeed: %f", motorspeed);
-                            driver[i].set_speed(motorspeed);
+                            driver[i].set_speed(-motorspeed);
                         }
 
                         else if(drvstat[i] == 2){
-                            driver[i].set_speed(-motorspeed);
+                            driver[i].set_speed(motorspeed);
                         }
                     }
                     
